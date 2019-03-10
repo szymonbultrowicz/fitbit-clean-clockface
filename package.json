@@ -4,6 +4,7 @@
     "email": "szymon.bultrowicz@gmaill.com",
     "name": "Szymon Bultrowicz"
   },
+  "repository": "github:szymonbultrowicz/fitbit-clean-clockface",
   "license": "MIT",
   "scripts": {
     "build": "fitbit-build"
@@ -29,5 +30,9 @@
   },
   "devDependencies": {
     "@fitbit/sdk": "~3.0.0"
+  },
+  "dependencies": {
+    "@fitbit/sdk-cli": "^1.5.0",
+    "io-ts": "^1.4.1"
   }
 }

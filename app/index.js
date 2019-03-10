@@ -1,7 +1,7 @@
 import clock from "clock";
 import document from "document";
 import { preferences } from "user-settings";
-import * as util from "../common/utils";
+import { zeroPad, formatDate } from "../common/date";
 import { HeartRateSensor } from "heart-rate";
 import { display } from "display";
 
@@ -23,12 +23,12 @@ clock.ontick = (evt) => {
     hours = hours % 12 || 12;
   } else {
     // 24h format
-    hours = util.zeroPad(hours);
+    hours = zeroPad(hours);
   }
-  let mins = util.zeroPad(today.getMinutes());
+  let mins = zeroPad(today.getMinutes());
   hourLabel.text = `${hours}`;
   minutesLabel.text = `${mins}`;
-  
+  dateLabel.text = formatDate(today);
 }
 
 const hrm = new HeartRateSensor();

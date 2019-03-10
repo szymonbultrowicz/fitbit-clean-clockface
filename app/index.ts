@@ -4,9 +4,14 @@ import { preferences } from "user-settings";
 import { zeroPad, formatDate } from "../common/date";
 import { HeartRateSensor } from "heart-rate";
 import { display } from "display";
+import { BodyPresenceSensor } from "body-presence";
+import { me } from "appbit";
 
 // Update the clock every minute
 clock.granularity = "minutes";
+
+const hrm: HeartRateSensor | null = me.permissions.granted("access_heart_rate") ? new HeartRateSensor() : null;
+const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted("access_activity") ? new BodyPresenceSensor : null;
 
 // Get a handle on the <text> element
 const hourLabel = document.getElementById("hour");
@@ -37,19 +42,46 @@ clock.ontick = (evt) => {
   setText(dateLabel, formatDate(today));
 }
 
-const hrm = new HeartRateSensor();
-hrm.onreading = () => {
-  console.log(hrm.heartRate);
-  setText(hrLabel, `${hrm.heartRate}`);
-};
-if (display.on) {
-  hrm.start();
+const startSensor = (sensor: Sensor<SensorReading> | null): void => {
+  if (sensor !== null) {
+    sensor.start();
+  }
+}
+
+const stopSensor = (sensor: Sensor<SensorReading> | null): void => {
+  if (sensor !== null) {
+    sensor.stop();
+  }
+}
+
+if (hrm !== null) {
+  hrm.onreading = () => {
+    console.log(hrm.heartRate);
+    setText(hrLabel, `${hrm.heartRate}`);
+  };
+  if (display.on) {
+    startSensor(hrm);
+  }
+}
+
+if (bodyPresenceSensor !== null) {
+  bodyPresenceSensor.onreading = () => {
+    if (!bodyPresenceSensor.present) {
+      setText(hrLabel, "--");
+    }
+  };
+  if (display.on) {
+    bodyPresenceSensor.start();
+  }
 }
 
 display.onchange = () => {
   if (display.on) {
-    hrm.start();
+    startSensor(hrm);
+    startSensor(bodyPresenceSensor);
   } else {
-    hrm.stop();
+    stopSensor(hrm);
+    setText(hrLabel, "--");
+    stopSensor(bodyPresenceSensor);
   }
 };

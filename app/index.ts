@@ -57,7 +57,9 @@ const stopSensor = (sensor: Sensor<SensorReading> | null): void => {
 if (hrm !== null) {
   hrm.onreading = () => {
     console.log(hrm.heartRate);
-    setText(hrLabel, `${hrm.heartRate}`);
+    if (bodyPresenceSensor === null || bodyPresenceSensor.present) {
+      setText(hrLabel, `${hrm.heartRate}`);
+    }
   };
   if (display.on) {
     startSensor(hrm);

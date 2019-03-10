@@ -34,21 +34,22 @@
 
 #heart {
   x: 50%-30;
-  y: 50%+62;
+  y: 50%+60;
 }
 
 #hr {
-  font-size: 20;
+  font-size: 26;
   x: 50%;
   y: 50%+80;
   fill: white;
   text-anchor: start;
+  text-length: 50;
 }
 
 #date {
-  font-size: 20;
+  font-size: 26;
   x: 50%;
-  y: 50%-60;
+  y: 50%-68;
   text-anchor: middle;
   fill: white;
   text-length: 100;

@@ -3,5 +3,6 @@
   <text id="hour" />
   <text id="colon">:</text>
   <text id="minutes" />
+  <image href="heart.png" id="heart" width="24" height="24" />
   <text id="hr" />
 </svg>

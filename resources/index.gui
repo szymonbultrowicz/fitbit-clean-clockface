@@ -4,5 +4,5 @@
   <text id="colon">:</text>
   <text id="minutes" />
   <image href="heart.png" id="heart" width="24" height="24" />
-  <text id="hr" />
+  <text id="hr">--</text>
 </svg>

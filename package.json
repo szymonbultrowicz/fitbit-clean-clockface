@@ -1,0 +1,24 @@
+{
+  "fitbit": {
+    "appUUID": "2f887227-3073-407f-9c02-95cfd82ff8fa",
+    "appType": "clockface",
+    "appDisplayName": "Clean clock",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "",
+    "requestedPermissions": [
+      "access_heart_rate"
+    ],
+    "buildTargets": [
+      "higgs",
+      "meson"
+    ],
+    "i18n": {
+      "en": {
+        "name": "Clean clock"
+      }
+    }
+  },
+  "devDependencies": {
+    "@fitbit/sdk": "~3.0.0"
+  }
+}

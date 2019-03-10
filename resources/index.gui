@@ -1,0 +1,7 @@
+<svg class="background">
+  <text id="date" />
+  <text id="hour" />
+  <text id="colon">:</text>
+  <text id="minutes" />
+  <text id="hr" />
+</svg>

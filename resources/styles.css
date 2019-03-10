@@ -1,0 +1,49 @@
+.background {
+  viewport-fill: black;
+}
+
+#hour {
+  font-size: 120;
+  font-family: Seville-Book;
+  text-length: 32;
+  x: 50%-10;
+  y: 50%+40;
+  fill: white;
+  text-anchor: end;
+}
+
+#colon {
+  font-size: 120;
+  font-family: Seville-Book;
+  text-length: 32;
+  x: 50%;
+  y: 50%+40;
+  fill: white;
+  text-anchor: middle;
+}
+
+#minutes {
+  font-size: 120;
+  font-family: Seville-Book;
+  text-length: 32;
+  x: 50%+10;
+  y: 50%+40;
+  fill: #999999;
+  text-anchor: start;
+}
+
+#hr {
+  font-size: 20;
+  x: 50%;
+  y: 50%+80;
+  fill: white;
+  text-anchor: middle;
+}
+
+#date {
+  font-size: 20;
+  x: 50%-40;
+  y: 50%;
+  text-anchor: middle;
+  fill: white;
+}

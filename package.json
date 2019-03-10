@@ -1,4 +1,13 @@
 {
+  "name": "fitbit-clean-clock",
+  "author": {
+    "email": "szymon.bultrowicz@gmaill.com",
+    "name": "Szymon Bultrowicz"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "fitbit-build"
+  },
   "fitbit": {
     "appUUID": "2f887227-3073-407f-9c02-95cfd82ff8fa",
     "appType": "clockface",

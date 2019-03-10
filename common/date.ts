@@ -25,13 +25,10 @@ const days = [
 ];
 
 // Add zero in front of numbers < 10
-export function zeroPad(i) {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  return i;
+export function zeroPad(i: number): string {
+  return i < 10 ? `0${i}` : `${i}`;
 }
 
-export function formatDate(date) {
+export function formatDate(date: Date): string {
   return `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]}`;//format(date, "ddd, MMM Mo YYYY");
 }

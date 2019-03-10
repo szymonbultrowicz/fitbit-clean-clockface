@@ -32,12 +32,17 @@
   text-anchor: start;
 }
 
+#heart {
+  x: 50%-30;
+  y: 50%+62;
+}
+
 #hr {
   font-size: 20;
   x: 50%;
   y: 50%+80;
   fill: white;
-  text-anchor: middle;
+  text-anchor: start;
 }
 
 #date {

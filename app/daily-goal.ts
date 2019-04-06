@@ -2,8 +2,11 @@ import { today } from "user-activity";
 import { me } from "appbit";
 import { GoalType } from "../common/goal-type";
 
+const DEFAULT_GOAL = GoalType.steps;
+
 export class Goal {
-    public type: GoalType | undefined;
+    public type: GoalType = DEFAULT_GOAL;
+    public enabled = false;
     public get value(): number | undefined {
         if (!me.permissions.granted("access_activity")) {
             return undefined;

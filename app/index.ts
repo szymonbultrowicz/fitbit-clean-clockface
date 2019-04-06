@@ -53,8 +53,6 @@ const setText = (el: Element | null, text: string): void => {
 }
 
 const displayGoal = () => {
-  setText(goalLabel, formatNumber(goal.value));
-  // console.log(JSON.stringify(Object.keys(GoalType)));
   Object.keys(GoalType)
     .forEach(t => {
       const el = document.getElementsByClassName("goal-icon-" + GoalType[t as (keyof typeof GoalType)])[0];
@@ -62,7 +60,13 @@ const displayGoal = () => {
         (el as any).style.display = "none";
       }
     });
+
+  if (goal.enabled) {
+    setText(goalLabel, formatNumber(goal.value));
     (document.getElementsByClassName("goal-icon-" + goal.type)[0] as any).style.display = "inline";
+  } else {
+    setText(goalLabel, "");
+  }
 };
 
 // Update the <text> element every tick with the current time
@@ -148,6 +152,10 @@ function settingChanged(key: SettingsKeys, value: string) {
   switch (key) {
     case SettingsKeys.ENABLED_GOAL:
       changeGoal(JSON.parse(value) as SelectValue);
+      break;
+    case SettingsKeys.ENABLE_GOALS:
+      goal.enabled = value === "true";
+      displayGoal();
       break;
   }
 }

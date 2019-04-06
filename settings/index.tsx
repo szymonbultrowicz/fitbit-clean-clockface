@@ -9,7 +9,7 @@ function settings(props: SettingsComponentProps) {
     return (
         <Page>
             <Section title={
-                <Text bold align="center">Goals</Text>
+                <Text bold align="center">Statistics</Text>
             }>
                 <Toggle
                     settingsKey={SettingsKeys.ENABLE_GOALS}
@@ -19,6 +19,7 @@ function settings(props: SettingsComponentProps) {
                     label="Goal to display"
                     settingsKey={SettingsKeys.ENABLED_GOAL}
                     options={goalsOptions}
+                    disabled={ props.settings[SettingsKeys.ENABLE_GOALS] !== "true" }
                  />
             </Section>
         </Page>

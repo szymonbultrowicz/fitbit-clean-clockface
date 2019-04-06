@@ -7,7 +7,8 @@
   "repository": "github:szymonbultrowicz/fitbit-clean-clockface",
   "license": "MIT",
   "scripts": {
-    "build": "fitbit-build"
+    "build": "fitbit-build",
+    "watch": "nodemon --exec npm run build"
   },
   "fitbit": {
     "appUUID": "2f887227-3073-407f-9c02-95cfd82ff8fa",
@@ -35,6 +36,10 @@
   },
   "dependencies": {
     "@fitbit/sdk-cli": "^1.5.0",
-    "io-ts": "^1.4.1"
+    "io-ts": "^1.4.1",
+    "nodemon": "^1.18.10"
+  },
+  "nodemonConfig": {
+    "ext": "ts,tsx,png,gui,css,json"
   }
 }

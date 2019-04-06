@@ -1,13 +1,6 @@
 import { today } from "user-activity";
 import { me } from "appbit";
-
-export enum GoalType {
-    activeMinutes,
-    calories,
-    distance,
-    elevationGain,
-    steps,
-};
+import { GoalType } from "../common/goal-type";
 
 export class Goal {
     public type: GoalType | undefined;

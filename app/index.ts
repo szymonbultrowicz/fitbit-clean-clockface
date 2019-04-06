@@ -1,15 +1,17 @@
-import clock from "clock";
-import document from "document";
-import { preferences } from "user-settings";
-import { HeartRateSensor } from "heart-rate";
-import { display } from "display";
-import { BodyPresenceSensor } from "body-presence";
 import { me } from "appbit";
+import { BodyPresenceSensor } from "body-presence";
+import clock from "clock";
+import { display } from "display";
+import document from "document";
+import { HeartRateSensor } from "heart-rate";
 import { battery } from "power";
+import { preferences } from "user-settings";
 
-import { zeroPad, formatDate } from "../common/date";
+import { formatDate, zeroPad } from "../common/date";
 import { formatNumber } from "../common/numbers";
-import { goal, GoalType } from "./daily-goal";
+import { GoalType } from "../common/goal-type";
+import { goal } from "./daily-goal";
+
 
 // Update the clock every minute
 clock.granularity = "minutes";

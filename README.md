@@ -5,5 +5,5 @@ Clean looking digital clockface with customizable, basic stats. Battery indicato
 
 <img src="/images/screenshot-1.png" width="150" /><img src="/images/screenshot-2.png" width="150" /><img src="/images/screenshot-3.png" width="150" /><img src="/images/screenshot-4.png" width="150" /><img src="/images/screenshot-5.png" width="150" />
 
-# License
+## License
 MIT

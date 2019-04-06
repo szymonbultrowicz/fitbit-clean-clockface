@@ -1,7 +1,7 @@
 import { peerSocket } from "messaging";
 import { settingsStorage } from "settings";
 import { Message } from "../common/messages";
-import { Settings } from '../common/settings-keys';
+import { SettingsKeys } from '../common/settings-keys';
 import { GoalType } from '../common/goal-type';
 import { goalsOptions } from '../common/goals-options';
 import { MessageKey } from '../common/message-keys';
@@ -25,7 +25,7 @@ settingsStorage.onchange = evt => {
   sendVal({
     key: MessageKey.SETTING_CHANGED,
     value: {
-        key: evt.key as Settings,
+        key: evt.key as SettingsKeys,
         value: evt.newValue as string,
     }
   });
@@ -39,7 +39,7 @@ function restoreSettings() {
       sendVal({
         key: MessageKey.SETTING_CHANGED,
         value: {
-            key: key as Settings,
+            key: key as SettingsKeys,
             value: settingsStorage.getItem(key),
         }
       });

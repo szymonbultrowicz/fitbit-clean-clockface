@@ -1,4 +1,4 @@
-<svg class="background">
+<svg class="background goal-distance-enabled" id="canvas">
   <text id="date" />
   <text id="hour" />
   <text id="colon">:</text>
@@ -6,10 +6,10 @@
   <image href="stat_hr_open_24px.png" id="heart" width="24" height="24" />
   <text id="hr">--</text>
   <text id="battery" />
-  <text id="goal" />
-  <!-- <image href="stat_am_solid_24px.png" id="goalActivity" width="20" height="20" />
-  <image href="stat_cals_solid_24px.png" id="goalCalories" width="20" height="20" />
-  <image href="stat_dist_solid_24px.png" id="goalDistance" width="20" height="20" />
-  <image href="stat_floors_solid_24px.png" id="goalFloors" width="20" height="20" /> -->
-  <image href="stat_steps_solid_24px.png" id="goalSteps" width="20" height="20" />
+  <text id="goal-value" />
+  <image href="stat_am_solid_24px.png" class="goal-icon goal-icon-active-minutes" width="20" height="20" />
+  <image href="stat_cals_solid_24px.png" class="goal-icon goal-icon-calories" width="20" height="20" />
+  <image href="stat_dist_solid_24px.png" class="goal-icon goal-icon-distance" width="20" height="20" />
+  <image href="stat_floors_solid_24px.png" class="goal-icon goal-icon-floors" width="20" height="20" />
+  <image href="stat_steps_solid_24px.png" class="goal-icon goal-icon-steps" width="20" height="20" />
 </svg>

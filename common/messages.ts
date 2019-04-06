@@ -1,8 +1,8 @@
 import { MessageKey } from './message-keys';
-import { Settings } from './settings-keys';
+import { SettingsKeys } from './settings-keys';
 
 export interface SettingChangeMessage {
-    key: Settings,
+    key: SettingsKeys,
     value: string,
 }
 

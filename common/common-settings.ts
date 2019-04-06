@@ -1,8 +1,13 @@
-import { Settings } from './settings-keys';
+import { SettingsKeys } from './settings-keys';
 import { goalsOptions } from './goals-options';
 import { GoalType } from './goal-type';
 
-function getGoalsSelection(value: GoalType) {
+export interface SelectValue {
+    selected: number[],
+    values: SelectOption[],
+}
+
+function getGoalsSelection(value: GoalType): SelectValue {
     const selected = goalsOptions.findIndex(o => o.value === value);
     return { 
         selected: [selected],
@@ -10,7 +15,7 @@ function getGoalsSelection(value: GoalType) {
     };
 }
 
-function setDefaultSettingsValue(settingsStorage: LiveStorage, key: Settings, value: string) {
+function setDefaultSettingsValue(settingsStorage: LiveStorage, key: SettingsKeys, value: string) {
     const currentValue = settingsStorage.getItem(key);
     console.log("current " + currentValue);
     if (!currentValue) {
@@ -21,7 +26,7 @@ function setDefaultSettingsValue(settingsStorage: LiveStorage, key: Settings, va
 export function setDefaultSettings(settingsStorage: LiveStorage) {
     setDefaultSettingsValue(
         settingsStorage,
-        Settings.ENABLED_GOAL, 
+        SettingsKeys.ENABLED_GOAL, 
         JSON.stringify(getGoalsSelection(GoalType.steps))
     );
 }

@@ -1,7 +1,7 @@
 export enum GoalType {
-    activeMinutes = "activeMinutes",
+    activeMinutes = "active-minutes",
     calories = "calories",
     distance = "distance",
-    elevationGain = "elevationGain",
+    elevationGain = "floors",
     steps = "steps",
 };

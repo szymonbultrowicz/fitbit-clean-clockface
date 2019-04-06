@@ -1,29 +1,40 @@
 import clock from "clock";
 import document from "document";
 import { preferences } from "user-settings";
-import { zeroPad, formatDate } from "../common/date";
 import { HeartRateSensor } from "heart-rate";
 import { display } from "display";
 import { BodyPresenceSensor } from "body-presence";
 import { me } from "appbit";
+import { battery } from "power";
+
+import { zeroPad, formatDate } from "../common/date";
+import { formatNumber } from "../common/numbers";
+import { goal, GoalType } from "./daily-goal";
 
 // Update the clock every minute
 clock.granularity = "minutes";
 
 const hrm: HeartRateSensor | null = me.permissions.granted("access_heart_rate") ? new HeartRateSensor() : null;
 const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted("access_activity") ? new BodyPresenceSensor : null;
+goal.type = GoalType.steps;
 
 // Get a handle on the <text> element
 const hourLabel = document.getElementById("hour");
 const minutesLabel = document.getElementById("minutes");
 const hrLabel = document.getElementById("hr");
 const dateLabel = document.getElementById("date");
+const batteryLabel = document.getElementById("battery");
+const goalLabel = document.getElementById("goal");
 
 const setText = (el: Element | null, text: string): void => {
   if (el !== null) {
     el.text = text;
   }
 }
+
+const displayGoal = () => {
+  setText(goalLabel, formatNumber(goal.value));
+};
 
 // Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
@@ -40,6 +51,8 @@ clock.ontick = (evt) => {
   setText(hourLabel, `${hours}`);
   setText(minutesLabel, `${mins}`);
   setText(dateLabel, formatDate(today));
+  
+  displayGoal();
 }
 
 const startSensor = (sensor: Sensor<SensorReading> | null): void => {
@@ -86,4 +99,9 @@ display.onchange = () => {
     setText(hrLabel, "--");
     stopSensor(bodyPresenceSensor);
   }
+};
+
+setText(batteryLabel, `${battery.chargeLevel}%`);
+battery.onchange = () => {
+  setText(batteryLabel, `${battery.chargeLevel}%`);
 };

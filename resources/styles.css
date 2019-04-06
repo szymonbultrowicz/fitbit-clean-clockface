@@ -34,13 +34,14 @@
 
 #heart {
   x: 50%-30;
-  y: 50%+60;
+  y: 50%+70;
+  fill: red;
 }
 
 #hr {
   font-size: 26;
   x: 50%;
-  y: 50%+80;
+  y: 50%+90;
   fill: white;
   text-anchor: start;
   text-length: 50;
@@ -53,4 +54,29 @@
   text-anchor: middle;
   fill: white;
   text-length: 100;
+}
+
+
+#battery {
+  font-size: 20;
+  x: 100%-5;
+  y: 25;
+  text-anchor: end;
+  fill: white;
+  text-length: 4;
+}
+
+#goal {
+  font-size: 20;
+  x: 35;
+  y: 25;
+  text-anchor: start;
+  fill: white;
+  text-length: 10;
+}
+
+#goalSteps {
+  x: 10;
+  y: 7;
+  fill: white;
 }

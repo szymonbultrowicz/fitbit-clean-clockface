@@ -4,13 +4,18 @@ import clock from "clock";
 import { display } from "display";
 import document from "document";
 import { HeartRateSensor } from "heart-rate";
+import { peerSocket } from 'messaging';
 import { battery } from "power";
 import { preferences } from "user-settings";
 
 import { formatDate, zeroPad } from "../common/date";
-import { formatNumber } from "../common/numbers";
 import { GoalType } from "../common/goal-type";
+import { MessageKey } from '../common/message-keys';
+import { Message } from '../common/messages';
+import { formatNumber } from "../common/numbers";
+
 import { goal } from "./daily-goal";
+
 
 
 // Update the clock every minute
@@ -27,6 +32,15 @@ const hrLabel = document.getElementById("hr");
 const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
 const goalLabel = document.getElementById("goal");
+
+peerSocket.onmessage = evt => {
+  console.log(`App received: ${JSON.stringify(evt)}`);
+  const data = evt.data as Message;
+
+  if (data.key === MessageKey.SETTING_CHANGED) {
+    
+  }
+};
 
 const setText = (el: Element | null, text: string): void => {
   if (el !== null) {

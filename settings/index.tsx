@@ -1,8 +1,11 @@
 import { GoalType } from "../common/goal-type";
 import { Settings } from "../common/settings-keys"
 import { goalsOptions } from "../common/goals-options";
+import { setDefaultSettings } from '../common/common-settings';
 
 function settings(props: SettingsComponentProps) {
+    setDefaultSettings(props.settingsStorage);
+
     return (
         <Page>
             <Section title={

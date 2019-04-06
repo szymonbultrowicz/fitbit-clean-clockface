@@ -1,15 +1,25 @@
-import clock from "clock";
-import document from "document";
-import { preferences } from "user-settings";
-import { HeartRateSensor } from "heart-rate";
-import { display } from "display";
-import { BodyPresenceSensor } from "body-presence";
 import { me } from "appbit";
+import { BodyPresenceSensor } from "body-presence";
+import clock from "clock";
+import { display } from "display";
+import document from "document";
+import { HeartRateSensor } from "heart-rate";
+import { peerSocket } from 'messaging';
 import { battery } from "power";
+import { preferences } from "user-settings";
 
-import { zeroPad, formatDate } from "../common/date";
+import { formatDate, zeroPad } from "../common/date";
+import { GoalType } from "../common/goal-type";
+import { MessageKey } from '../common/message-keys';
+import { Message, SettingChangeMessage } from '../common/messages';
 import { formatNumber } from "../common/numbers";
-import { goal, GoalType } from "./daily-goal";
+
+import { goal, Goal } from "./daily-goal";
+import { SettingsKeys } from '../common/settings-keys';
+import { SelectValue } from '../common/common-settings';
+import { setSetting, getSetting } from './app-settings';
+
+
 
 // Update the clock every minute
 clock.granularity = "minutes";
@@ -19,12 +29,23 @@ const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted("ac
 goal.type = GoalType.steps;
 
 // Get a handle on the <text> element
+const canvas: Element = document.getElementById("canvas");
 const hourLabel = document.getElementById("hour");
 const minutesLabel = document.getElementById("minutes");
 const hrLabel = document.getElementById("hr");
 const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
-const goalLabel = document.getElementById("goal");
+const goalLabel = document.getElementById("goal-value");
+
+peerSocket.onmessage = evt => {
+  console.log(`App received: ${JSON.stringify(evt)}`);
+  const data = evt.data as Message;
+
+  if (data.key === MessageKey.SETTING_CHANGED) {
+    const settingChangedMsg = data.value as SettingChangeMessage;
+    settingChanged(settingChangedMsg.key, settingChangedMsg.value);
+  }
+};
 
 const setText = (el: Element | null, text: string): void => {
   if (el !== null) {
@@ -33,7 +54,20 @@ const setText = (el: Element | null, text: string): void => {
 }
 
 const displayGoal = () => {
-  setText(goalLabel, formatNumber(goal.value));
+  Object.keys(GoalType)
+    .forEach(t => {
+      const el = document.getElementsByClassName("goal-icon-" + GoalType[t as (keyof typeof GoalType)])[0];
+      if (el) {
+        (el as any).style.display = "none";
+      }
+    });
+
+  if (goal.enabled) {
+    setText(goalLabel, formatNumber(goal.value));
+    (document.getElementsByClassName("goal-icon-" + goal.type)[0] as any).style.display = "inline";
+  } else {
+    setText(goalLabel, "");
+  }
 };
 
 // Update the <text> element every tick with the current time
@@ -69,7 +103,6 @@ const stopSensor = (sensor: Sensor<SensorReading> | null): void => {
 
 if (hrm !== null) {
   hrm.onreading = () => {
-    console.log(hrm.heartRate);
     if (bodyPresenceSensor === null || bodyPresenceSensor.present) {
       setText(hrLabel, `${hrm.heartRate}`);
     }
@@ -101,7 +134,37 @@ display.onchange = () => {
   }
 };
 
-setText(batteryLabel, `${battery.chargeLevel}%`);
+showBatteryStatus();
 battery.onchange = () => {
-  setText(batteryLabel, `${battery.chargeLevel}%`);
+  showBatteryStatus();
 };
+
+function showBatteryStatus() {
+  const batteryEnabled = getSetting(SettingsKeys.ENABLE_BATTERY) !== "false";
+  setText(batteryLabel, batteryEnabled ? `${battery.chargeLevel}%` : "");
+}
+
+function changeGoal(selectValue: SelectValue) {
+  if (selectValue.values.length === 1) {
+    goal.type = selectValue.values[0].value;
+  } else if (selectValue.selected.length === 1) {
+    goal.type = selectValue.values[selectValue.selected[0]].value as GoalType;
+  }
+  displayGoal();
+}
+
+function settingChanged(key: SettingsKeys, value: string) {
+  switch (key) {
+    case SettingsKeys.ENABLED_GOAL:
+      changeGoal(JSON.parse(value) as SelectValue);
+      break;
+    case SettingsKeys.ENABLE_GOALS:
+      goal.enabled = value === "true";
+      displayGoal();
+      break;
+    case SettingsKeys.ENABLE_BATTERY:
+      setSetting(key, value);
+      showBatteryStatus();
+      break;
+  }
+}

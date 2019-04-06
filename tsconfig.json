@@ -4,5 +4,10 @@
     "node_modules/fitbit-sdk-types/types",
     "**/*.ts",
     "**/*.tsx"
-  ]
+  ],
+  "compilerOptions": {
+    "lib": [
+      "es7"
+    ]
+  }
 }

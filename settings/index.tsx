@@ -12,6 +12,10 @@ function settings(props: SettingsComponentProps) {
                 <Text bold align="center">Statistics</Text>
             }>
                 <Toggle
+                    settingsKey={SettingsKeys.ENABLE_BATTERY}
+                    label="Show battery indicator"
+                 />
+                <Toggle
                     settingsKey={SettingsKeys.ENABLE_GOALS}
                     label="Show goal status"
                  />

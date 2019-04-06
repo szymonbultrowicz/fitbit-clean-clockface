@@ -17,6 +17,7 @@ import { formatNumber } from "../common/numbers";
 import { goal, Goal } from "./daily-goal";
 import { SettingsKeys } from '../common/settings-keys';
 import { SelectValue } from '../common/common-settings';
+import { setSetting, getSetting } from './app-settings';
 
 
 
@@ -102,7 +103,6 @@ const stopSensor = (sensor: Sensor<SensorReading> | null): void => {
 
 if (hrm !== null) {
   hrm.onreading = () => {
-    console.log(hrm.heartRate);
     if (bodyPresenceSensor === null || bodyPresenceSensor.present) {
       setText(hrLabel, `${hrm.heartRate}`);
     }
@@ -134,10 +134,15 @@ display.onchange = () => {
   }
 };
 
-setText(batteryLabel, `${battery.chargeLevel}%`);
+showBatteryStatus();
 battery.onchange = () => {
-  setText(batteryLabel, `${battery.chargeLevel}%`);
+  showBatteryStatus();
 };
+
+function showBatteryStatus() {
+  const batteryEnabled = getSetting(SettingsKeys.ENABLE_BATTERY) !== "false";
+  setText(batteryLabel, batteryEnabled ? `${battery.chargeLevel}%` : "");
+}
 
 function changeGoal(selectValue: SelectValue) {
   if (selectValue.values.length === 1) {
@@ -156,6 +161,10 @@ function settingChanged(key: SettingsKeys, value: string) {
     case SettingsKeys.ENABLE_GOALS:
       goal.enabled = value === "true";
       displayGoal();
+      break;
+    case SettingsKeys.ENABLE_BATTERY:
+      setSetting(key, value);
+      showBatteryStatus();
       break;
   }
 }

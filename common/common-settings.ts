@@ -17,7 +17,6 @@ function getGoalsSelection(value: GoalType): SelectValue {
 
 function setDefaultSettingsValue(settingsStorage: LiveStorage, key: SettingsKeys, value: string) {
     const currentValue = settingsStorage.getItem(key);
-    console.log("current " + currentValue);
     if (!currentValue) {
         settingsStorage.setItem(key, value);
     }
@@ -28,5 +27,15 @@ export function setDefaultSettings(settingsStorage: LiveStorage) {
         settingsStorage,
         SettingsKeys.ENABLED_GOAL, 
         JSON.stringify(getGoalsSelection(GoalType.steps))
+    );
+    setDefaultSettingsValue(
+        settingsStorage,
+        SettingsKeys.ENABLE_GOALS, 
+        "true",
+    );
+    setDefaultSettingsValue(
+        settingsStorage,
+        SettingsKeys.ENABLE_BATTERY, 
+        "true",
     );
 }

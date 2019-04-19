@@ -165,7 +165,7 @@ function settingChanged(key: SettingsKeys, value: string) {
       changeGoal(JSON.parse(value) as SelectValue);
       break;
     case SettingsKeys.ENABLE_GOALS:
-      goal.enabled = value === "true";
+      setSetting(key, value);
       displayGoal();
       break;
     case SettingsKeys.ENABLE_BATTERY:

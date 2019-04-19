@@ -13,16 +13,7 @@ const months = [
   "Dec",
 ];
 
-const days = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-  "Sun",
-];
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 // Add zero in front of numbers < 10
 export function zeroPad(i: number): string {

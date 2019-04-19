@@ -19,8 +19,8 @@ settingsStorage.onchange = (evt) => {
   sendVal({
     key: MessageKey.SETTING_CHANGED,
     value: {
-        key: evt.key as SettingsKeys,
-        value: evt.newValue as string,
+      key: evt.key as SettingsKeys,
+      value: evt.newValue as string,
     },
   });
 };
@@ -33,8 +33,8 @@ function restoreSettings() {
       sendVal({
         key: MessageKey.SETTING_CHANGED,
         value: {
-            key: key as SettingsKeys,
-            value: settingsStorage.getItem(key),
+          key: key as SettingsKeys,
+          value: settingsStorage.getItem(key),
         },
       });
     }

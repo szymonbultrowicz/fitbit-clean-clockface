@@ -1,3 +1,3 @@
 export const enum MessageKey {
-    SETTING_CHANGED,
+  SETTING_CHANGED,
 }

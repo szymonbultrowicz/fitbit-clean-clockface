@@ -22,9 +22,14 @@ import { goal, Goal } from "./daily-goal";
 // Update the clock every minute
 clock.granularity = "minutes";
 
-const hrm: HeartRateSensor | null = me.permissions.granted("access_heart_rate") ? new HeartRateSensor() : null;
-const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted("access_activity")
-  ? new BodyPresenceSensor() : null;
+const hrm: HeartRateSensor | null = me.permissions.granted("access_heart_rate")
+  ? new HeartRateSensor()
+  : null;
+const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted(
+  "access_activity",
+)
+  ? new BodyPresenceSensor()
+  : null;
 goal.type = GoalType.steps;
 
 // Get a handle on the <text> element
@@ -52,17 +57,20 @@ const setText = (el: Element | null, text: string): void => {
 };
 
 const displayGoal = () => {
-  Object.keys(GoalType)
-    .forEach((t) => {
-      const el = document.getElementsByClassName("goal-icon-" + GoalType[t as (keyof typeof GoalType)])[0];
-      if (el) {
-        (el as any).style.display = "none";
-      }
-    });
+  Object.keys(GoalType).forEach((t) => {
+    const el = document.getElementsByClassName(
+      "goal-icon-" + GoalType[t as (keyof typeof GoalType)],
+    )[0];
+    if (el) {
+      (el as any).style.display = "none";
+    }
+  });
 
   if (goal.enabled) {
     setText(goalLabel, formatNumber(goal.value));
-    (document.getElementsByClassName("goal-icon-" + goal.type)[0] as any).style.display = "inline";
+    (document.getElementsByClassName(
+      "goal-icon-" + goal.type,
+    )[0] as any).style.display = "inline";
   } else {
     setText(goalLabel, "");
   }

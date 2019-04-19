@@ -1,5 +1,5 @@
-import { today } from "user-activity";
 import { me } from "appbit";
+import { today } from "user-activity";
 import { GoalType } from "../common/goal-type";
 
 const DEFAULT_GOAL = GoalType.steps;

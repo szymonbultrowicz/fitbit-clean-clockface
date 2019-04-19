@@ -1,7 +1,7 @@
+import { setDefaultSettings } from "../common/common-settings";
 import { GoalType } from "../common/goal-type";
-import { SettingsKeys } from "../common/settings-keys"
 import { goalsOptions } from "../common/goals-options";
-import { setDefaultSettings } from '../common/common-settings';
+import { SettingsKeys } from "../common/settings-keys";
 
 function settings(props: SettingsComponentProps) {
     setDefaultSettings(props.settingsStorage);
@@ -19,7 +19,7 @@ function settings(props: SettingsComponentProps) {
                     settingsKey={SettingsKeys.ENABLE_GOALS}
                     label="Show goal status"
                  />
-                 <Select 
+                 <Select
                     label="Goal to display"
                     settingsKey={SettingsKeys.ENABLED_GOAL}
                     options={goalsOptions}

@@ -1,6 +1,6 @@
-import { GoalType } from './goal-type';
+import { GoalType } from "./goal-type";
 
-export const goalsOptions: Array<SelectOption> = [
+export const goalsOptions: SelectOption[] = [
     { name: "Active minutes", value: GoalType.activeMinutes },
     { name: "Calories", value: GoalType.calories },
     { name: "Distance", value: GoalType.distance },

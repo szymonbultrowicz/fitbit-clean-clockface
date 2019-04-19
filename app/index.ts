@@ -4,28 +4,27 @@ import clock from "clock";
 import { display } from "display";
 import document from "document";
 import { HeartRateSensor } from "heart-rate";
-import { peerSocket } from 'messaging';
+import { peerSocket } from "messaging";
 import { battery } from "power";
 import { preferences } from "user-settings";
 
 import { formatDate, zeroPad } from "../common/date";
 import { GoalType } from "../common/goal-type";
-import { MessageKey } from '../common/message-keys';
-import { Message, SettingChangeMessage } from '../common/messages';
+import { MessageKey } from "../common/message-keys";
+import { Message, SettingChangeMessage } from "../common/messages";
 import { formatNumber } from "../common/numbers";
 
+import { SelectValue } from "../common/common-settings";
+import { SettingsKeys } from "../common/settings-keys";
+import { getSetting, setSetting } from "./app-settings";
 import { goal, Goal } from "./daily-goal";
-import { SettingsKeys } from '../common/settings-keys';
-import { SelectValue } from '../common/common-settings';
-import { setSetting, getSetting } from './app-settings';
-
-
 
 // Update the clock every minute
 clock.granularity = "minutes";
 
 const hrm: HeartRateSensor | null = me.permissions.granted("access_heart_rate") ? new HeartRateSensor() : null;
-const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted("access_activity") ? new BodyPresenceSensor : null;
+const bodyPresenceSensor: BodyPresenceSensor | null = me.permissions.granted("access_activity")
+  ? new BodyPresenceSensor() : null;
 goal.type = GoalType.steps;
 
 // Get a handle on the <text> element
@@ -37,8 +36,7 @@ const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
 const goalLabel = document.getElementById("goal-value");
 
-peerSocket.onmessage = evt => {
-  console.log(`App received: ${JSON.stringify(evt)}`);
+peerSocket.onmessage = (evt) => {
   const data = evt.data as Message;
 
   if (data.key === MessageKey.SETTING_CHANGED) {
@@ -51,11 +49,11 @@ const setText = (el: Element | null, text: string): void => {
   if (el !== null) {
     el.text = text;
   }
-}
+};
 
 const displayGoal = () => {
   Object.keys(GoalType)
-    .forEach(t => {
+    .forEach((t) => {
       const el = document.getElementsByClassName("goal-icon-" + GoalType[t as (keyof typeof GoalType)])[0];
       if (el) {
         (el as any).style.display = "none";
@@ -73,7 +71,7 @@ const displayGoal = () => {
 // Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
   const today = evt.date;
-  let hours: string;;
+  let hours: string;
   if (preferences.clockDisplay === "12h") {
     // 12h format
     hours = `${today.getHours() % 12 || 12}`;
@@ -81,25 +79,25 @@ clock.ontick = (evt) => {
     // 24h format
     hours = zeroPad(today.getHours());
   }
-  let mins = zeroPad(today.getMinutes());
+  const mins = zeroPad(today.getMinutes());
   setText(hourLabel, `${hours}`);
   setText(minutesLabel, `${mins}`);
   setText(dateLabel, formatDate(today));
-  
+
   displayGoal();
-}
+};
 
 const startSensor = (sensor: Sensor<SensorReading> | null): void => {
   if (sensor !== null) {
     sensor.start();
   }
-}
+};
 
 const stopSensor = (sensor: Sensor<SensorReading> | null): void => {
   if (sensor !== null) {
     sensor.stop();
   }
-}
+};
 
 if (hrm !== null) {
   hrm.onreading = () => {

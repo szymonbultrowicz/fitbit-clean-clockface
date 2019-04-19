@@ -7,7 +7,9 @@
   "repository": "github:szymonbultrowicz/fitbit-clean-clockface",
   "license": "MIT",
   "scripts": {
-    "build": "fitbit-build",
+    "build:styles": "dart-sass --no-source-map --update .",
+    "build:fitbit": "fitbit-build",
+    "build": "npm run build:styles && npm run build:fitbit",
     "watch": "nodemon --exec npm run build",
     "lint": "tslint --project .",
     "check-formatting": "prettier -c **/*.ts",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@fitbit/sdk": "~3.0.0",
+    "dart-sass": "^1.19.0",
     "fitbit-sdk-types": "^3.2.12",
     "prettier": "^1.17.0",
     "tslint": "^5.16.0"
@@ -46,6 +49,6 @@
     "nodemon": "^1.18.10"
   },
   "nodemonConfig": {
-    "ext": "ts,tsx,png,gui,css,json"
+    "ext": "ts,tsx,png,gui,scss,json"
   }
 }

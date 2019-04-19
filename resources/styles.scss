@@ -1,11 +1,27 @@
+$goals: ("active-minutes", "calories", "distance", "floors", "steps");
+
+@mixin font-clock() {
+  font-size: 120;
+  font-family: Seville-Book;
+  text-length: 32;
+}
+
+@mixin font-goals() {
+  fill: white;
+  font-size: 26;
+}
+
+@mixin font-date() {
+  fill: white;
+  font-size: 20;
+}
+
 .background {
   viewport-fill: black;
 }
 
 #hour {
-  font-size: 120;
-  font-family: Seville-Book;
-  text-length: 32;
+  @include font-clock();
   x: 50%-10;
   y: 50%+40;
   fill: white;
@@ -13,9 +29,7 @@
 }
 
 #colon {
-  font-size: 120;
-  font-family: Seville-Book;
-  text-length: 32;
+  @include font-clock();
   x: 50%;
   y: 50%+40;
   fill: white;
@@ -23,9 +37,7 @@
 }
 
 #minutes {
-  font-size: 120;
-  font-family: Seville-Book;
-  text-length: 32;
+  @include font-clock();
   x: 50%+10;
   y: 50%+40;
   fill: #999999;
@@ -39,39 +51,34 @@
 }
 
 #hr {
-  font-size: 26;
+  @include font-date();
   x: 50%;
   y: 50%+90;
-  fill: white;
   text-anchor: start;
   text-length: 50;
 }
 
 #date {
-  font-size: 26;
+  @include font-date();
   x: 50%;
   y: 50%-68;
   text-anchor: middle;
-  fill: white;
   text-length: 100;
 }
 
-
 #battery {
-  font-size: 20;
+  @include font-goals();
   x: 100%-5;
   y: 25;
   text-anchor: end;
-  fill: white;
   text-length: 4;
 }
 
 #goal-value {
-  font-size: 20;
+  @include font-date();
   x: 35;
   y: 25;
   text-anchor: start;
-  fill: white;
   text-length: 10;
 }
 
@@ -82,22 +89,8 @@
   display: none;
 }
 
-.goal-active-minutes-enabled .goal-icon-active-minutes {
-  display: inline;
-}
-
-.goal-calories-enabled .goal-icon-calories {
-  display: inline;
-}
-
-.goal-distance-enabled .goal-icon-distance {
-  display: inline;
-}
-
-.goal-floors-enabled .goal-icon-floors {
-  display: inline;
-}
-
-.goal-steps-enabled .goal-icon-steps {
-  display: inline;
+@each $goal in $goals {
+  .goal-#{$goal}-enabled .goal-icon-#{$goal} {
+    display: inline;
+  }
 }

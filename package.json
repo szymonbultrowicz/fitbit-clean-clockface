@@ -8,7 +8,9 @@
   "license": "MIT",
   "scripts": {
     "build": "fitbit-build",
-    "watch": "nodemon --exec npm run build"
+    "watch": "nodemon --exec npm run build",
+    "lint": "tslint --project .",
+    "ci": "npm run build && npm run lint"
   },
   "version": "1.0.0",
   "fitbit": {
@@ -33,7 +35,8 @@
   },
   "devDependencies": {
     "@fitbit/sdk": "~3.0.0",
-    "fitbit-sdk-types": "^3.2.12"
+    "fitbit-sdk-types": "^3.2.12",
+    "tslint": "^5.16.0"
   },
   "dependencies": {
     "@fitbit/sdk-cli": "^1.5.0",

@@ -1,33 +1,27 @@
 import { peerSocket } from "messaging";
 import { settingsStorage } from "settings";
+import { setDefaultSettings } from "../common/common-settings";
+import { GoalType } from "../common/goal-type";
+import { goalsOptions } from "../common/goals-options";
+import { MessageKey } from "../common/message-keys";
 import { Message } from "../common/messages";
-import { SettingsKeys } from '../common/settings-keys';
-import { GoalType } from '../common/goal-type';
-import { goalsOptions } from '../common/goals-options';
-import { MessageKey } from '../common/message-keys';
-import { setDefaultSettings } from '../common/common-settings';
+import { SettingsKeys } from "../common/settings-keys";
 
 setDefaultSettings(settingsStorage);
 
 // Message socket opens
 peerSocket.onopen = () => {
-  console.log("Companion Socket Open");
   restoreSettings();
 };
 
-// Message socket closes
-peerSocket.onclose = () => {
-  console.log("Companion Socket Closed");
-};
-
 // A user changes settings
-settingsStorage.onchange = evt => {
+settingsStorage.onchange = (evt) => {
   sendVal({
     key: MessageKey.SETTING_CHANGED,
     value: {
         key: evt.key as SettingsKeys,
         value: evt.newValue as string,
-    }
+    },
   });
 };
 
@@ -41,7 +35,7 @@ function restoreSettings() {
         value: {
             key: key as SettingsKeys,
             value: settingsStorage.getItem(key),
-        }
+        },
       });
     }
   }

@@ -4,4 +4,4 @@ export enum GoalType {
     distance = "distance",
     elevationGain = "floors",
     steps = "steps",
-};
+}

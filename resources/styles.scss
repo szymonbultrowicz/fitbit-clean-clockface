@@ -1,0 +1,105 @@
+$goals: ("active-minutes", "calories", "distance", "floors", "steps");
+
+@mixin font-clock() {
+  font-size: 120;
+  font-family: Seville-Book;
+  text-length: 32;
+}
+
+@mixin font-goals() {
+  fill: white;
+  font-size: 20;
+}
+
+@mixin font-date() {
+  fill: white;
+  font-size: 26;
+}
+
+@function concatCalc($v1, $v2) {
+  @if ($v2 > 0) {
+    @return #{$v1 + "+" + $v2};
+  } @else if ($v2 < 0) {
+    @return #{$v1 + $v2};
+  } @else {
+    @return #{$v1};
+  }
+}
+
+@mixin center($x: 0, $y: 0) {
+  x: concatCalc("50%", $x);
+  y: concatCalc("50%", $y);
+}
+
+.background {
+  viewport-fill: black;
+}
+
+#hour {
+  @include font-clock();
+  @include center(-10, 40);
+  fill: white;
+  text-anchor: end;
+}
+
+#colon {
+  @include font-clock();
+  @include center(0, 40);
+  fill: white;
+  text-anchor: middle;
+}
+
+#minutes {
+  @include font-clock();
+  @include center(10, 40);
+  fill: #999999;
+  text-anchor: start;
+}
+
+#heart {
+  @include center(-30, 70);
+  fill: red;
+}
+
+#hr {
+  @include font-date();
+  @include center(0, 90);
+  text-anchor: start;
+  text-length: 50;
+}
+
+#date {
+  @include font-date();
+  @include center(0, -68);
+  text-anchor: middle;
+  text-length: 100;
+}
+
+#battery {
+  @include font-goals();
+  x: 100%-5;
+  y: 25;
+  text-anchor: end;
+  text-length: 4;
+}
+
+#goal-value {
+  @include font-goals();
+  x: 35;
+  y: 25;
+  text-anchor: start;
+  text-length: 10;
+}
+
+.goal-icon {
+  x: 10;
+  y: 7;
+  fill: white;
+  display: none;
+}
+
+@each $goal in $goals {
+  .goal-#{$goal}-enabled .goal-icon-#{$goal} {
+    display: inline;
+  }
+}

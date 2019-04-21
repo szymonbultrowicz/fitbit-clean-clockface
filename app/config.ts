@@ -1,11 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
-import { GoalType } from "./goal-type";
-
-export interface Config {
-  enableGoals: boolean;
-  enabledGoal: GoalType;
-  enableBattery: boolean;
-}
+import { Config } from "../common/config";
+import { GoalType } from "../common/goal-type";
 
 export const DEFAULT_CONFIG = {
   enableGoals: false,

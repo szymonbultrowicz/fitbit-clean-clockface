@@ -7,17 +7,14 @@ import { HeartRateSensor } from "heart-rate";
 import { peerSocket } from "messaging";
 import { battery } from "power";
 import { preferences } from "user-settings";
-
+import { Config } from "../common/config";
 import { formatDate, zeroPad } from "../common/date";
 import { GoalType } from "../common/goal-type";
 import { MessageKey } from "../common/message-keys";
 import { Message } from "../common/messages";
 import { formatNumber } from "../common/numbers";
-
-import { SelectValue } from "../common/common-settings";
-import { Config, config } from "../common/config";
-import { SettingsKeys } from "../common/settings-keys";
-import { goal, Goal } from "./daily-goal";
+import { config } from "./config";
+import { goal } from "./daily-goal";
 
 // Update the clock every minute
 clock.granularity = "minutes";

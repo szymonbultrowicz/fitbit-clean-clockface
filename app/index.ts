@@ -41,6 +41,8 @@ const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
 const goalLabel = document.getElementById("goal-value");
 
+config.restore();
+
 peerSocket.onmessage = (evt) => {
   const data = evt.data as Message;
 
@@ -161,4 +163,5 @@ function settingChanged(newConfig: Partial<Config>) {
   changeGoal(config.enabledGoal);
   displayGoal();
   showBatteryStatus();
+  config.save();
 }

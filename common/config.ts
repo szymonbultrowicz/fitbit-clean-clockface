@@ -1,3 +1,4 @@
+import { readFileSync, writeFileSync } from "fs";
 import { GoalType } from "./goal-type";
 
 export interface Config {
@@ -6,14 +7,16 @@ export interface Config {
   enableBattery: boolean;
 }
 
-export const defaultConfig = {
+export const DEFAULT_CONFIG = {
   enableGoals: false,
   enabledGoal: GoalType.steps,
   enableBattery: false,
 };
 
+const CONFIG_FILE_NAME = "config.json";
+
 let internalConfig = {
-  ...defaultConfig,
+  ...DEFAULT_CONFIG,
 };
 
 export const config = {
@@ -34,5 +37,26 @@ export const config = {
       ...internalConfig,
       ...newConfig,
     };
+  },
+
+  save() {
+    try {
+      writeFileSync(CONFIG_FILE_NAME, internalConfig, "json");
+    } catch (e) {
+      console.error("Failed to save config file");
+      console.error(e);
+    }
+  },
+
+  restore() {
+    try {
+      internalConfig = {
+        DEFAULT_CONFIG,
+        ...readFileSync(CONFIG_FILE_NAME, "json"),
+      };
+    } catch (e) {
+      console.error("Failed to read config file");
+      console.error(e);
+    }
   },
 };

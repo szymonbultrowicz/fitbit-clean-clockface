@@ -1,6 +1,7 @@
 import { peerSocket } from "messaging";
 import { settingsStorage } from "settings";
 import { SelectValue, setDefaultSettings } from "../common/common-settings";
+import { Config } from "../common/config";
 import { GoalType } from "../common/goal-type";
 import { MessageKey } from "../common/message-keys";
 import { Message } from "../common/messages";
@@ -25,18 +26,24 @@ settingsStorage.onchange = (evt) => {
 
 // Restore any previously saved settings and send to the device
 function restoreSettings() {
-  for (let index = 0; index < settingsStorage.length; index++) {
-    const key = settingsStorage.key(index) as SettingsKeys;
-    const value = coerceSettingsValue(key, settingsStorage.getItem(key));
-    if (key && value !== null) {
-      sendVal({
-        key: MessageKey.SETTING_CHANGED,
-        value: {
-          [key]: value,
-        },
-      });
-    }
-  }
+  const config: Partial<Config> = [...Array(settingsStorage.length).keys()]
+    .map((i) => settingsStorage.key(i) as SettingsKeys)
+    .filter((key) => !!key)
+    .reduce((acc, key) => {
+      const value = coerceSettingsValue(key, settingsStorage.getItem(key));
+      return value
+        ? {
+            ...acc,
+            ...{
+              [key]: value,
+            },
+          }
+        : acc;
+    }, {});
+  sendVal({
+    key: MessageKey.SETTING_CHANGED,
+    value: config,
+  });
 }
 
 function coerceBoolean(value: string) {

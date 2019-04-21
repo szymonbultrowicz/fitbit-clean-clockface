@@ -1,15 +1,14 @@
 import { me } from "appbit";
 import { today } from "user-activity";
+import { config } from "../common/config";
 import { GoalType } from "../common/goal-type";
-import { SettingsKeys } from "../common/settings-keys";
-import { getSetting } from "./app-settings";
 
 const DEFAULT_GOAL = GoalType.steps;
 
 export class Goal {
   public type: GoalType = DEFAULT_GOAL;
   public get enabled() {
-    return getSetting(SettingsKeys.ENABLE_GOALS, "true") === "true";
+    return config.enableGoals;
   }
   public get value(): number | undefined {
     if (!me.permissions.granted("access_activity")) {

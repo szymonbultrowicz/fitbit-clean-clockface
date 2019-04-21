@@ -7,7 +7,7 @@ export interface SelectValue {
   values: SelectOption[];
 }
 
-function getGoalsSelection(value: GoalType): SelectValue {
+export function getGoalsSelection(value: GoalType): SelectValue {
   const selected = goalsOptions.findIndex((o) => o.value === value);
   return {
     selected: [selected],

@@ -1,19 +1,7 @@
+import { stringifySettingsValue } from "../companion/coercion";
+import { DEFAULT_CONFIG } from "./config";
 import { GoalType } from "./goal-type";
-import { goalsOptions } from "./goals-options";
 import { SettingsKeys } from "./settings-keys";
-
-export interface SelectValue {
-  selected: number[];
-  values: SelectOption[];
-}
-
-function getGoalsSelection(value: GoalType): SelectValue {
-  const selected = goalsOptions.findIndex((o) => o.value === value);
-  return {
-    selected: [selected],
-    values: goalsOptions,
-  };
-}
 
 function setDefaultSettingsValue(
   settingsStorage: LiveStorage,
@@ -27,11 +15,11 @@ function setDefaultSettingsValue(
 }
 
 export function setDefaultSettings(settingsStorage: LiveStorage) {
-  setDefaultSettingsValue(
-    settingsStorage,
-    SettingsKeys.ENABLED_GOAL,
-    JSON.stringify(getGoalsSelection(GoalType.steps)),
-  );
-  setDefaultSettingsValue(settingsStorage, SettingsKeys.ENABLE_GOALS, "true");
-  setDefaultSettingsValue(settingsStorage, SettingsKeys.ENABLE_BATTERY, "true");
+  Object.keys(DEFAULT_CONFIG).forEach((key: SettingsKeys) => {
+    setDefaultSettingsValue(
+      settingsStorage,
+      key,
+      stringifySettingsValue(key, DEFAULT_CONFIG[key]),
+    );
+  });
 }

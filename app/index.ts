@@ -7,14 +7,14 @@ import { HeartRateSensor } from "heart-rate";
 import { peerSocket } from "messaging";
 import { battery } from "power";
 import { preferences } from "user-settings";
-import { Config } from "../common/config";
+import { Config, config } from "../common/config";
 import { formatDate, zeroPad } from "../common/date";
 import { GoalType } from "../common/goal-type";
 import { MessageKey } from "../common/message-keys";
 import { Message } from "../common/messages";
 import { formatNumber } from "../common/numbers";
-import { config } from "./config";
 import { goal } from "./daily-goal";
+import { load as loadConfig, save as saveConfig } from "./local-config";
 
 // Update the clock every minute
 clock.granularity = "minutes";
@@ -38,7 +38,7 @@ const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
 const goalLabel = document.getElementById("goal-value");
 
-config.restore();
+config.update(loadConfig());
 
 peerSocket.onmessage = (evt) => {
   const data = evt.data as Message;
@@ -128,7 +128,6 @@ if (bodyPresenceSensor !== null) {
 }
 
 display.onchange = () => {
-  console.log("display onchange");
   if (display.on) {
     startSensor(hrm);
     startSensor(bodyPresenceSensor);
@@ -160,5 +159,5 @@ function settingChanged(newConfig: Partial<Config>) {
   changeGoal(config.enabledGoal);
   displayGoal();
   showBatteryStatus();
-  config.save();
+  saveConfig(config.state);
 }

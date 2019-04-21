@@ -7,17 +7,14 @@ import { HeartRateSensor } from "heart-rate";
 import { peerSocket } from "messaging";
 import { battery } from "power";
 import { preferences } from "user-settings";
-
+import { Config, config } from "../common/config";
 import { formatDate, zeroPad } from "../common/date";
 import { GoalType } from "../common/goal-type";
 import { MessageKey } from "../common/message-keys";
-import { Message, SettingChangeMessage } from "../common/messages";
+import { Message } from "../common/messages";
 import { formatNumber } from "../common/numbers";
-
-import { SelectValue } from "../common/common-settings";
-import { SettingsKeys } from "../common/settings-keys";
-import { getSetting, setSetting } from "./app-settings";
-import { goal, Goal } from "./daily-goal";
+import { goal } from "./daily-goal";
+import { load as loadConfig, save as saveConfig } from "./local-config";
 
 // Update the clock every minute
 clock.granularity = "minutes";
@@ -41,12 +38,13 @@ const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
 const goalLabel = document.getElementById("goal-value");
 
+config.update(loadConfig());
+
 peerSocket.onmessage = (evt) => {
   const data = evt.data as Message;
 
   if (data.key === MessageKey.SETTING_CHANGED) {
-    const settingChangedMsg = data.value as SettingChangeMessage;
-    settingChanged(settingChangedMsg.key, settingChangedMsg.value);
+    settingChanged(data.value as Partial<Config>);
   }
 };
 
@@ -133,6 +131,8 @@ display.onchange = () => {
   if (display.on) {
     startSensor(hrm);
     startSensor(bodyPresenceSensor);
+    showBatteryStatus();
+    displayGoal();
   } else {
     stopSensor(hrm);
     setText(hrLabel, "--");
@@ -146,31 +146,18 @@ battery.onchange = () => {
 };
 
 function showBatteryStatus() {
-  const batteryEnabled = getSetting(SettingsKeys.ENABLE_BATTERY) !== "false";
-  setText(batteryLabel, batteryEnabled ? `${battery.chargeLevel}%` : "");
+  setText(batteryLabel, config.enableBattery ? `${battery.chargeLevel}%` : "");
 }
 
-function changeGoal(selectValue: SelectValue) {
-  if (selectValue.values.length === 1) {
-    goal.type = selectValue.values[0].value;
-  } else if (selectValue.selected.length === 1) {
-    goal.type = selectValue.values[selectValue.selected[0]].value as GoalType;
-  }
+function changeGoal(goalType: GoalType) {
+  goal.type = goalType;
   displayGoal();
 }
 
-function settingChanged(key: SettingsKeys, value: string) {
-  switch (key) {
-    case SettingsKeys.ENABLED_GOAL:
-      changeGoal(JSON.parse(value) as SelectValue);
-      break;
-    case SettingsKeys.ENABLE_GOALS:
-      goal.enabled = value === "true";
-      displayGoal();
-      break;
-    case SettingsKeys.ENABLE_BATTERY:
-      setSetting(key, value);
-      showBatteryStatus();
-      break;
-  }
+function settingChanged(newConfig: Partial<Config>) {
+  config.update(newConfig);
+  changeGoal(config.enabledGoal);
+  displayGoal();
+  showBatteryStatus();
+  saveConfig(config.state);
 }

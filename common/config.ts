@@ -6,12 +6,14 @@ export interface Config {
   [SettingsKeys.ENABLE_GOALS]: boolean;
   [SettingsKeys.ENABLED_GOAL]: GoalType;
   [SettingsKeys.ENABLE_BATTERY]: boolean;
+  [SettingsKeys.HR_TIMEOUT]: number;
 }
 
 export const DEFAULT_CONFIG: Config = {
   enableGoals: false,
   enabledGoal: GoalType.steps,
   enableBattery: false,
+  hrTimeout: 60_000,
 };
 
 let internalConfig = {
@@ -29,6 +31,10 @@ export const config = {
 
   get enableBattery() {
     return internalConfig.enableBattery;
+  },
+
+  get hrTimeout() {
+    return internalConfig.hrTimeout;
   },
 
   update(newConfig: Partial<Config>) {

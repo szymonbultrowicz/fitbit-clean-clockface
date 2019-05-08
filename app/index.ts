@@ -38,6 +38,8 @@ const dateLabel = document.getElementById("date");
 const batteryLabel = document.getElementById("battery");
 const goalLabel = document.getElementById("goal-value");
 
+let hrmReadingTimeout = 0;
+
 config.update(loadConfig());
 
 peerSocket.onmessage = (evt) => {
@@ -109,6 +111,12 @@ if (hrm !== null) {
   hrm.onreading = () => {
     if (bodyPresenceSensor === null || bodyPresenceSensor.present) {
       setText(hrLabel, `${hrm.heartRate}`);
+      clearTimeout(hrmReadingTimeout);
+      if (config.hrTimeout > -1) {
+        hrmReadingTimeout = setTimeout(() => {
+          setText(hrLabel, "--");
+        }, config.hrTimeout);
+      }
     }
   };
   if (display.on) {

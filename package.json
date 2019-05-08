@@ -37,14 +37,14 @@
     }
   },
   "devDependencies": {
-    "@fitbit/sdk": "~3.0.0",
+    "@fitbit/sdk": "^3.0.1",
     "dart-sass": "^1.19.0",
     "fitbit-sdk-types": "^3.2.12",
     "prettier": "^1.17.0",
     "tslint": "^5.16.0"
   },
   "dependencies": {
-    "@fitbit/sdk-cli": "^1.5.0",
+    "@fitbit/sdk-cli": "^1.6.0",
     "io-ts": "^1.4.1",
     "nodemon": "^1.18.10"
   },
